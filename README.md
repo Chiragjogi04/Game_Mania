@@ -26,29 +26,42 @@ It lets you play multiple games, compete on leaderboards, and connect with a com
 
 ## 🚀 Steps to Run Game Mania Locally
 
-
 1️⃣ Clone the Repository
+```bash
 git clone https://github.com/Chiragjogi04/Game_Mania.git
 cd game-mania
+```
 
 2️⃣ Create a Virtual Environment (Recommended)
 # Create a virtual environment
+```bash
 python -m venv venv
+```
 
 # Activate the virtual environment
 
-# On Windows:
+**On Windows:**  
+```bash
 venv\Scripts\activate
+```
 
-# On macOS/Linux:
+**On macOS/Linux:**  
+```bash
 source venv/bin/activate
+```
 
-3️⃣ Install the Requirements
+3️⃣ Install the Requirements  
+```bash
 pip install -r requirements.txt
+```
 
-4️⃣ Run the Application
-python app.py / python3 app.py
+4️⃣ Run the Application  
+```bash
+python app.py
+# or
+python3 app.py
+```
 
-6️⃣ Open the App in Your Browser
-Go to http://127.0.0.1:5000/
+6️⃣ Open the App in Your Browser  
+Go to [http://127.0.0.1:5000/](http://127.0.0.1:5000/)  
 Create an account, log in, and start playing!
