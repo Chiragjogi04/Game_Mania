@@ -20,38 +20,18 @@ It lets you play multiple games, compete on leaderboards, and connect with a com
 
 - **Backend:** Flask (Python), SQLAlchemy  
 - **Frontend:** HTML, CSS (custom & animations), JavaScript  
-- **Database:** SQLite
+- **Database:** SQLite (file-based)
 
 ---
-## Steps to run the code
-1️⃣ Clone the Repository
-git clone https://github.com/YOUR_USERNAME/game-mania.git
+
+## 🚀 How to Run Game Mania Locally
+
+Follow these steps to get the project running on your local machine.
+
+---
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/Chiragjogi04/Game_Mania.git
 cd game-mania
-2️⃣ Create a Virtual Environment (Recommended)
-# Create virtual environment
-python -m venv venv
-
-# Activate it
-# On Windows:
-venv\Scripts\activate
-
-# On macOS/Linux:
-source venv/bin/activate
-3️⃣ Install the Requirements
-pip install -r requirements.txt
-4️⃣ Initialize the Database
-If this is your first time running the project:
-
-# In Python shell or automatically by app.py:
-python app.py
-✅ This will automatically create game_mania.db and the necessary tables.
-
-5️⃣ Run the Application
-python app.py
-The app will start on:
-
-http://127.0.0.1:5000/
-6️⃣ Sign Up and Play!
-Open your browser.
-Go to http://127.0.0.1:5000/.
-Create an account, log in, and enjoy the games!
