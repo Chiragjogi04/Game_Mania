@@ -40,10 +40,13 @@ pip install -r requirements.txt
 3️⃣ Run the Application  
 ```bash
 python app.py
+```
+
 # or
+```bash
 python3 app.py
 ```
 
-Final: Open the App in Your Browser  
+**Finally: Open the App in Your Browser**
 Go to [http://127.0.0.1:5000/](http://127.0.0.1:5000/)  
 Create an account, log in, and start playing!
