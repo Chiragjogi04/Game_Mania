@@ -23,3 +23,7 @@ It lets you play multiple games, compete on leaderboards, and connect with a com
 - **Database:** SQLite
 
 ---
+## Steps to run the code
+- **1.Clone the Repository:**
+  git clone https://github.com/Chiragjogi04/Game_Mania.git
+  cd game-mania
