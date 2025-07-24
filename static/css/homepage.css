@@ -1,0 +1,216 @@
+/* Root overrides */
+:root {
+  --hero-bg: url('../images/hero-bg.jpg') center/cover no-repeat;
+  --card-radius: 16px;
+  --card-shadow: rgba(0,0,0,0.2);
+  --primary-color: #2ecc71;
+  --text-light: #f5f5f5;
+  --text-dark: #222;
+}
+
+/* Hero */
+.hero-animated {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background: var(--hero-bg);
+  background-attachment: fixed;
+  will-change: transform;
+  transition: transform 0.1s ease-out;
+}
+
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.6);
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  text-align: center;
+  color: var(--text-light);
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 900;
+  letter-spacing: 0.2rem;
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: slideUp 1s ease-out 0.5s forwards;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  opacity: 0;
+  animation: slideUp 1s ease-out 0.8s forwards;
+}
+
+/* Games Grid */
+.games-section {
+  padding: 4rem 2%;
+  background: #121212;
+}
+
+.section-heading {
+  text-align: center;
+  font-size: 2.5rem;
+  color: var(--text-light);
+  margin-bottom: 2rem;
+}
+
+/* Card Container */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 2rem;
+}
+
+.game-card {
+  background: #1e1e1e;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  box-shadow: 0 8px 24px var(--card-shadow);
+  transition: box-shadow .3s ease, transform .3s ease;
+  opacity: 0;
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.game-card:nth-child(1) { animation-delay: 0.2s; }
+.game-card:nth-child(2) { animation-delay: 0.3s; }
+.game-card:nth-child(3) { animation-delay: 0.4s; }
+.game-card:nth-child(4) { animation-delay: 0.5s; }
+.game-card:nth-child(5) { animation-delay: 0.6s; }
+.game-card:nth-child(6) { animation-delay: 0.7s; }
+.game-card:nth-child(7) { animation-delay: 0.8s; }
+.game-card:nth-child(8) { animation-delay: 0.9s; }
+
+.game-card:hover {
+  box-shadow: 0 16px 32px var(--card-shadow);
+}
+
+.card-image {
+  width: 100%;
+  padding-top: 60%; /* 3:2 aspect */
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+}
+
+.card-label {
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--text-light);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero wrapper */
+.hero-animated {
+  position: relative;
+  height: 80vh;
+  overflow: hidden;
+}
+
+/* rotating background layer */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  will-change: background-image;
+}
+
+/* dark overlay */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+}
+
+/* hero text */
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #fff;
+  text-align: center;
+}
+.hero-title {
+  font-size: 4rem;
+  letter-spacing: 0.2rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 8px rgba(0,0,0,0.8);
+}
+.hero-subtitle {
+  font-size: 1.5rem;
+  opacity: 0.9;
+}
+
+/* Games grid: exactly 4 columns */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  padding: 2rem 5%;
+}
+@media (max-width: 1024px) {
+  .games-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .games-grid { grid-template-columns: 1fr; }
+}
+
+/* Card styling */
+.game-card {
+  display: block;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  text-decoration: none; /* ⬅️ Remove underline */
+}
+
+.card-label {
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+  background: #1e1e1e;
+  color: var(--primary);
+  text-decoration: none; /* ⬅️ Just in case */
+}
+
+.game-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.6);
+}
+.card-image {
+  width: 100%;
+  padding-top: 60%; /* aspect ratio */
+  background-size: cover;
+  background-position: center;
+}

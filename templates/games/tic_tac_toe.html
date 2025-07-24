@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="hero game-hero">
+  <div class="overlay"></div>
+  <div class="hero-content">
+    <h1 class="hero-title">TIC TAC TOE</h1>
+
+    <div class="ttt-controls">
+      <label for="ttt-mode">Choose Mode:</label>
+      <select id="ttt-mode" class="ttt-select">
+        <option value="cpu">Play vs Computer</option>
+        <option value="2p">2 Player Mode</option>
+      </select>
+    </div>
+
+    <div class="ttt-controls">
+      <label for="ttt-difficulty" id="difficulty-label">Difficulty:</label>
+      <select id="ttt-difficulty" class="ttt-select">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
+
+    <div class="ttt-board">
+      {% for i in range(9) %}
+        <div class="ttt-cell" data-index="{{ i }}"></div>
+      {% endfor %}
+    </div>
+
+    <button class="btn" id="reset-btn">Restart</button>
+    <p id="ttt-status"></p>
+  </div>
+</div>
+
+<!-- ✅ Result Modal -->
+<div id="ttt-result-modal" class="modal">
+  <div class="modal-content">
+    <h2 id="ttt-modal-message"></h2>
+    <button class="btn" id="ttt-modal-restart">Play Again</button>
+  </div>
+</div>
+
+<!-- ✅ Confetti container -->
+<div class="confetti" id="confetti-container"></div>
+
+<style>
+  .ttt-controls { margin: 10px 0; }
+  .ttt-controls label {
+    color: #ddd; font-weight: bold; margin-right: 8px;
+  }
+  .ttt-select {
+    background: #111; color: #0f0; border: 2px solid #0f0;
+    padding: 5px 10px; border-radius: 5px; font-size: 16px;
+    outline: none; transition: border 0.2s ease, background 0.2s ease;
+  }
+  .ttt-select:hover { background: #222; }
+  .ttt-select:focus {
+    border-color: #0f0; box-shadow: 0 0 5px #0f0;
+  }
+
+  .ttt-board {
+    display: grid; grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px); gap: 5px; margin: 20px 0;
+  }
+  .ttt-cell {
+    background: #222; border: 2px solid #0f0; font-size: 36px;
+    color: #0f0; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; user-select: none;
+    transition: background 0.2s ease;
+  }
+  .ttt-cell:hover { background: #333; }
+
+  .modal {
+    display: none; position: fixed; z-index: 999; left: 0; top: 0;
+    width: 100%; height: 100%; background: rgba(0,0,0,0.7);
+    justify-content: center; align-items: center;
+  }
+  .modal-content {
+    background: #111; padding: 40px; border-radius: 10px; text-align: center;
+    color: #0f0; animation: pop 0.4s ease-out;
+  }
+  @keyframes pop {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .winner-glow {
+    animation: winnerGlow 1s ease infinite alternate;
+  }
+  @keyframes winnerGlow {
+    from { box-shadow: 0 0 20px #0f0; }
+    to { box-shadow: 0 0 40px #0f0; }
+  }
+
+  .confetti {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 1000;
+  }
+  .confetti-piece {
+    position: absolute; width: 10px; height: 10px; background: #0f0;
+    animation: confettiFall 3s linear forwards;
+  }
+  @keyframes confettiFall {
+    to {
+      transform: translateY(100vh) rotateZ(360deg); opacity: 0;
+    }
+  }
+</style>
+
+<script src="{{ url_for('static', filename='js/tic_tac_toe.js') }}"></script>
+{% endblock %}

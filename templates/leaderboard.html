@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="hero">
+  <div class="overlay"></div>
+  <h1 class="hero-title">Game Mania</h1>
+</div>
+<h2 class="new-hero"><center>Leaderboard</center></h2>
+
+<div class="leaderboard-controls">
+  <button onclick="showTab('win')">Win Rate</button>
+  <button onclick="showTab('snake')">Snake High Score</button>
+  <button onclick="showTab('breakout')">Breakout High Score</button>
+</div>
+
+<!-- Win Rate -->
+<div class="leaderboard-section" id="tab-win">
+  <h2><center>Top 10 Players by Win Rate</center></h2>
+  <table class="leaderboard-table">
+    <thead>
+      <tr><th>Rank</th><th>Player</th><th>Win Rate (%)</th></tr>
+    </thead>
+    <tbody>
+      {% for user in top_by_win %}
+      <tr {% if user.username == current_user.username %} class="highlight" {% endif %}>
+        <td>{{ loop.index }}</td>
+        <td>
+          <img src="{{ url_for('static', filename='uploads/' ~ user.profile_pic) }}" class="lb-avatar">
+          {{ user.username }}
+        </td>
+        <td>{{ "%.2f"|format(user.win_rate) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if current_rank_win and current_rank_win > 10 %}
+    <div class="your-rank">Your rank: <strong>#{{ current_rank_win }}</strong></div>
+  {% endif %}
+</div>
+
+<!-- Snake -->
+<div class="leaderboard-section" id="tab-snake" style="display:none;">
+  <h2><center>Top 10 Snake High Scores</center></h2>
+  <table class="leaderboard-table">
+    <thead>
+      <tr><th>Rank</th><th>Player</th><th>High Score</th></tr>
+    </thead>
+    <tbody>
+      {% for u in top_by_snake %}
+      <tr {% if u.username == current_user.username %} class="highlight" {% endif %}>
+        <td>{{ loop.index }}</td>
+        <td>
+          <img src="{{ url_for('static', filename='uploads/' ~ u.profile_pic) }}" class="lb-avatar">
+          {{ u.username }}
+        </td>
+        <td>{{ u.high_score_snake }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if current_rank_snake and current_rank_snake > 10 %}
+    <div class="your-rank">Your rank: <strong>#{{ current_rank_snake }}</strong></div>
+  {% endif %}
+</div>
+
+<!-- Breakout -->
+<div class="leaderboard-section" id="tab-breakout" style="display:none;">
+  <h2><center>Top 10 Breakout High Scores</center></h2>
+  <table class="leaderboard-table">
+    <thead>
+      <tr><th>Rank</th><th>Player</th><th>High Score</th></tr>
+    </thead>
+    <tbody>
+      {% for u in top_by_breakout %}
+      <tr {% if u.username == current_user.username %} class="highlight" {% endif %}>
+        <td>{{ loop.index }}</td>
+        <td>
+          <img src="{{ url_for('static', filename='uploads/' ~ u.profile_pic) }}" class="lb-avatar">
+          {{ u.username }}
+        </td>
+        <td>{{ u.high_score_breakout }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if current_rank_breakout and current_rank_breakout > 10 %}
+    <div class="your-rank">Your rank: <strong>#{{ current_rank_breakout }}</strong></div>
+  {% endif %}
+</div>
+
+<style>
+  .leaderboard-controls {
+    text-align: center;
+    margin: 30px 0;
+  }
+
+  .leaderboard-controls button {
+    margin: 0 10px;
+    padding: 10px 25px;
+    background: transparent;
+    border: 2px solid #00FF00; /* Neon green border */
+    border-radius: 8px;
+    cursor: pointer;
+    color: #00FF00; /* Neon green text */
+    font-weight: 600;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  .leaderboard-controls button:hover {
+    background: #00FF00; /* Neon green fill on hover */
+    color: #000; /* Black text on hover */
+  }
+
+  .leaderboard-table {
+    width: 80%;
+    margin: 0 auto 40px;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    color: #fff;
+  }
+
+  .leaderboard-table thead {
+    background: #2c3e50;
+    color: #fff;
+  }
+
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 15px 20px;
+    text-align: center;
+  }
+
+  .leaderboard-table tbody tr {
+    background: #111; /* Dark row background for contrast */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .leaderboard-table tbody tr:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3); /* Subtle neon glow on hover */
+  }
+
+  .leaderboard-table tbody tr.highlight {
+    background: #000; /* Black for highlight row */
+    color: #00FF00; /* Neon green text */
+    font-weight: bold;
+  }
+
+  .lb-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 10px;
+    object-fit: cover;
+    border: 2px solid #2c3e50; /* Default avatar border */
+  }
+
+  .leaderboard-table tbody tr.highlight .lb-avatar {
+    border-color: #00FF00; /* Neon green border for highlighted avatar */
+  }
+
+  .your-rank {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #00FF00;
+  }
+
+  .leaderboard-section h2 {
+    margin: 30px 0 20px;
+    color: #fff;
+  }
+
+  body {
+    background: #000; /* Optional: full dark mode background for neon effect */
+    color: #fff;
+    font-family: Arial, sans-serif;
+  }
+</style>
+
+
+<script>
+  function showTab(tab) {
+    document.getElementById('tab-win').style.display = 'none';
+    document.getElementById('tab-snake').style.display = 'none';
+    document.getElementById('tab-breakout').style.display = 'none';
+
+    document.getElementById('tab-' + tab).style.display = 'block';
+  }
+</script>
+{% endblock %}

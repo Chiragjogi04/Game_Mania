@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/community.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="hero community-hero">
+  <div class="overlay"></div>
+</div>
+
+<div class="community-container">
+  <h1 class="community-title">Community Feed</h1>
+
+  <!-- 🔍 Search Bar -->
+  <form method="get" action="{{ url_for('community') }}" class="search-form">
+    <input
+      type="text"
+      name="q"
+      value="{{ search }}"
+      placeholder="Search posts or users..."
+      class="search-input"
+    >
+    <button type="submit" class="search-btn">Search</button>
+  </form>
+
+  <!-- ✏️ Create Post Form -->
+  <form
+    action="{{ url_for('create_post') }}"
+    method="post"
+    enctype="multipart/form-data"
+    class="post-form"
+  >
+    <textarea
+      name="content"
+      placeholder="What's on your mind?"
+      required
+      class="post-textarea"
+    ></textarea>
+
+    <!-- 📷 Upload Image Button -->
+    <label class="upload-label">
+      <span class="camera-icon">📷</span>
+      Upload Image
+      <input type="file" name="image" hidden>
+    </label>
+
+    <button type="submit" class="btn post-btn">Post</button>
+  </form>
+
+  <!-- 📰 Posts Feed -->
+  <div class="posts-feed">
+    {% for p in post_data %}
+      {% set post = p.post %}
+      {% set likes = p.likes %}
+      {% set loves = p.loves %}
+      {% set laughs = p.laughs %}
+      <div class="post-card">
+        <!-- Header -->
+        <div class="post-header">
+          <img
+            src="{{ url_for('static', filename='uploads/' ~ post.author.profile_pic) }}"
+            alt="Avatar"
+            class="avatar"
+          >
+          <div class="post-user-info">
+            <strong class="username">{{ post.author.username }}</strong>
+            <small class="timestamp">{{ post.timestamp | timeago }}</small>
+          </div>
+        </div>
+
+        <!-- Content with Mentions -->
+        <div class="post-content">
+          {{ post.content | link_mentions | safe }}
+        </div>
+
+        <!-- Image -->
+        {% if post.image %}
+          <img
+            src="{{ url_for('static', filename='uploads/' ~ post.image) }}"
+            alt="Post Image"
+            class="post-image"
+          >
+        {% endif %}
+
+        <!-- Reactions -->
+        <div class="post-reactions">
+          <form
+            action="{{ url_for('react_post', post_id=post.id) }}"
+            method="post"
+            class="reaction-form"
+          >
+            <select name="emoji" class="emoji-picker">
+              <option value="👍">👍</option>
+              <option value="❤️">❤️</option>
+              <option value="😂">😂</option>
+            </select>
+            <button type="submit" class="btn react-btn">React</button>
+            <div class="reaction-counts">
+              👍 {{ likes }} &nbsp;|&nbsp; ❤️ {{ loves }} &nbsp;|&nbsp; 😂 {{ laughs }}
+            </div>
+          </form>
+        </div>
+
+        <!-- Comments + Replies -->
+        <div class="post-comments">
+          {% macro render_comments(comments) %}
+            {% for comment in comments %}
+              <div class="comment">
+                <div class="comment-header">
+                  <strong class="comment-author">{{ comment.author.username }}</strong>
+                  <small class="comment-time">{{ comment.timestamp | timeago }}</small>
+                  <a href="#" class="reply-btn" data-id="{{ comment.id }}">Reply</a>
+                </div>
+                <div class="comment-body">
+                  {{ comment.text | link_mentions | safe }}
+                </div>
+
+                <!-- Reply Form (hidden) -->
+                <form
+                  action="{{ url_for('add_comment', post_id=post.id) }}"
+                  method="post"
+                  class="comment-form reply-form"
+                  id="reply-{{ comment.id }}"
+                >
+                  <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                  <input
+                    type="text"
+                    name="text"
+                    placeholder="Reply..."
+                    required
+                    class="reply-input"
+                  >
+                  <button type="submit" class="btn btn-small">Post</button>
+                </form>
+
+                <!-- Nested Replies -->
+                {% if comment.replies %}
+                  <div class="replies">
+                    {{ render_comments(comment.replies) }}
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          {% endmacro %}
+
+          <!-- Render top-level comments -->
+          {{ render_comments(post.comments | selectattr("parent_id", "==", None)) }}
+
+          <!-- Add new top-level comment -->
+          <form
+            action="{{ url_for('add_comment', post_id=post.id) }}"
+            method="post"
+            class="comment-form new-comment-form"
+          >
+            <input
+              type="text"
+              name="text"
+              placeholder="Add a comment..."
+              required
+              class="comment-input"
+            >
+            <button type="submit" class="btn btn-small">Post</button>
+          </form>
+        </div>
+
+        <!-- Actions -->
+        {% if post.author.id == current_user.id %}
+          <div class="post-actions">
+            <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn btn-small">Edit</a>
+            <form
+              action="{{ url_for('delete_post', post_id=post.id) }}"
+              method="post"
+              style="display:inline;"
+            >
+              <button type="submit" class="btn btn-small danger">Delete</button>
+            </form>
+          </div>
+        {% endif %}
+      </div>
+    {% else %}
+      <p class="no-posts">No posts yet. Be the first to share something!</p>
+    {% endfor %}
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    {% if posts.has_prev %}
+      <a href="{{ url_for('community', page=posts.prev_num) }}" class="btn btn-small">Previous</a>
+    {% endif %}
+    {% if posts.has_next %}
+      <a href="{{ url_for('community', page=posts.next_num) }}" class="btn btn-small">Next</a>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Threaded Reply Toggle Script -->
+<script>
+  document.querySelectorAll('.reply-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const id = btn.dataset.id;
+      const form = document.getElementById('reply-' + id);
+      form.style.display = form.style.display === 'block' ? 'none' : 'block';
+      form.querySelector('input').focus();
+    });
+  });
+</script>
+{% endblock %}

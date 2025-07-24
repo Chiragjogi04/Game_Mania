@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+  <!-- Your existing homepage.css -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
+  <!-- Inline vars & keyframes for rotating backgrounds -->
+  <style>
+    :root {
+      --bg1: url('{{ url_for('static', filename='images/bg1.jpg') }}');
+      --bg2: url('{{ url_for('static', filename='images/bg2.jpg') }}');
+      --bg3: url('{{ url_for('static', filename='images/bg3.jpg') }}');
+    }
+
+    .hero-bg {
+      animation: slideBg 20s infinite;
+    }
+
+    @keyframes slideBg {
+      0%    { background-image: var(--bg1); }
+      33%   { background-image: var(--bg2); }
+      66%   { background-image: var(--bg3); }
+      100%  { background-image: var(--bg1); }
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <section class="hero-animated">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-inner">
+      <h1 class="hero-title">GAME MANIA</h1>
+      <p class="hero-subtitle">Dive in. Compete. Conquer.</p>
+    </div>
+  </section>
+
+  <section class="games-section">
+    <h2 class="section-heading">Choose Your Adventure</h2>
+    <div class="games-grid">
+      {% for slug, img, label in [
+        ('rock_paper_scissors','images/rock_paper_scissors.jpg','Rock Paper Scissors'),
+        ('sudoku','images/sudoku.jpg','Sudoku'),
+        ('tic_tac_toe','images/tic_tac_toe.png','Tic Tac Toe'),
+        ('wordle','images/wordle.png','Wordle'),
+        ('2048','images/2048.avif','2048'),
+        ('connect_four','images/connect_four.jpeg','Connect Four'),
+        ('snake','images/snake.jpg','Snake'),
+        ('breakout','images/breakout.webp','Breakout'),
+      ] %}
+      <a href="{{ url_for('play_game', game_name=slug) }}" class="game-card" data-tilt>
+        <div
+          class="card-image"
+          style="background-image:url('{{ url_for('static', filename=img) }}')"
+        ></div>
+        <div class="card-label">{{ label }}</div>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <script src="{{ url_for('static', filename='js/homepage.js') }}"></script>
+{% endblock %}

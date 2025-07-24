@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-hero">
+  <div class="overlay"></div>
+  <div class="hero-inner">
+    <h1 class="hero-title">Your Profile</h1>
+  </div>
+</div>
+
+<div class="profile-wrapper">
+  <!-- SIDEBAR -->
+  <aside class="profile-sidebar neon-panel">
+    <div class="avatar-wrap">
+      <img src="{{ url_for('static', filename='uploads/' ~ user.profile_pic) }}" 
+           alt="Profile Picture" class="profile-avatar">
+      <button id="settings-toggle" class="settings-btn" title="Edit Profile">
+        ⚙️
+      </button>
+    </div>
+    <h2 class="username">{{ user.username }}</h2>
+    <p class="bio">{{ user.bio or 'No bio yet. Tell us about yourself!' }}</p>
+
+    <div class="sidebar-info">
+      <div><strong>Email:</strong> {{ user.email or '—' }}</div>
+      <div><strong>DOB:</strong> {{ user.dob or '—' }}</div>
+      <div><strong>Gender:</strong> {{ user.gender or '—' }}</div>
+    </div>
+
+    <div id="settings-panel" class="settings-panel">
+      <form action="{{ url_for('upload_avatar') }}" method="post" enctype="multipart/form-data">
+        <label for="avatar">Change Avatar</label>
+        <input type="file" name="avatar" id="avatar" accept="image/*">
+        <button type="submit" class="btn neon-btn">Upload</button>
+      </form>
+
+      <form action="{{ url_for('update_profile') }}" method="post" class="info-form">
+        <label for="bio">Bio</label>
+        <textarea name="bio" id="bio" rows="3">{{ user.bio or '' }}</textarea>
+
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" value="{{ user.email or '' }}">
+
+        <label for="dob">Date of Birth</label>
+        <input type="date" name="dob" id="dob" value="{{ user.dob or '' }}">
+
+        <label for="gender">Gender</label>
+        <select name="gender" id="gender">
+          <option value="">Select</option>
+          <option value="Male"  {% if user.gender=='Male'  %}selected{% endif %}>Male</option>
+          <option value="Female"{% if user.gender=='Female'%}selected{% endif %}>Female</option>
+          <option value="Other" {% if user.gender=='Other' %}selected{% endif %}>Other</option>
+        </select>
+
+        <button type="submit" class="btn neon-btn">Save Changes</button>
+      </form>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="profile-main">
+    <section class="stats neon-panel">
+      <h3>Game Stats</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">{{ total_games }}</div>
+          <div class="stat-label">Total Games</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ '%.1f'|format(win_rate) }}%</div>
+          <div class="stat-label">Win Rate</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ user.high_score_snake }}</div>
+          <div class="stat-label">Snake HS</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ user.high_score_breakout }}</div>
+          <div class="stat-label">Breakout HS</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="history neon-panel">
+      <h3>Recent History</h3>
+      <ul class="history-list">
+        {% for h in history %}
+          <li>
+            <span class="history-time">{{ h.timestamp.strftime('%b %d, %Y – %I:%M %p') }}</span>
+            <span class="history-text">{{ h.game_name.replace('_',' ')|title }}: {{ h.result }}</span>
+          </li>
+        {% else %}
+          <li class="no-history">No games played yet. Get started!</li>
+        {% endfor %}
+      </ul>
+    </section>
+  </main>
+</div>
+
+<script>
+  document.getElementById('settings-toggle').addEventListener('click', () => {
+    document.getElementById('settings-panel').classList.toggle('open');
+  });
+</script>
+{% endblock %}

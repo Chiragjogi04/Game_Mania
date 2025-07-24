@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="hero game-hero">
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">SUDOKU</h1>
+
+      <div class="sudoku-grid" id="sudoku-grid">
+        {% for i in range(81) %}
+          <div class="sudoku-cell">
+            <input maxlength="1" data-index="{{ i }}">
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- 🗂️ Buttons under grid, no extra container needed -->
+      <button class="btn" id="check-btn">Check</button>
+      <button class="btn" id="hint-btn">Hint</button>
+      <button class="btn" id="reset-btn">Reset</button>
+
+      <p id="sudoku-message"></p>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/sudoku.js') }}"></script>
+{% endblock %}

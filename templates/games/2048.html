@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="hero game-hero">
+  <div class="overlay"></div>
+  <div class="hero-content">
+    <h1 class="hero-title">2048</h1>
+
+    <div id="game-container">
+      <div id="grid-container"></div>
+      <div id="score">Score: 0</div>
+      <div id="high-score">High Score: {{ high_score }}</div>
+      <button id="restart-btn" class="btn">Restart</button>
+    </div>
+  </div>
+</div>
+
+<!-- Game Over Popup -->
+<div id="game-over-modal" class="modal">
+  <div class="modal-content">
+    <h2>Game Over!</h2>
+    <p>Better luck next time!</p>
+    <button id="close-modal" class="btn">Close</button>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/2048.js') }}"></script>
+<script>
+  let currentScore = 0;
+  let highScore = parseInt(document.getElementById('high-score').textContent.split(':')[1]) || 0;
+
+  function updateScore(newScore) {
+    currentScore = newScore;
+    document.getElementById('score').textContent = "Score: " + newScore;
+
+    if (newScore > highScore) {
+      highScore = newScore;
+      document.getElementById('high-score').textContent = "High Score: " + highScore;
+
+      fetch('/update_2048_score', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ high_score: highScore })
+      });
+    }
+  }
+</script>
+{% endblock %}

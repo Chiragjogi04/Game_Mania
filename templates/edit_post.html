@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="community-container">
+  <h2>Edit Your Post</h2>
+
+  <form action="{{ url_for('edit_post', post_id=post.id) }}" method="post" class="post-form">
+    <label for="content">Post Content:</label>
+    <textarea id="content" name="content" rows="6" required>{{ post.content }}</textarea>
+
+    <div class="button-group">
+      <button type="submit" class="btn">Save Changes</button>
+      <a href="{{ url_for('community') }}" class="btn secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<style>
+  .community-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #000000;
+    border-radius: 8px;
+  }
+
+  .post-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .post-form textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    resize: vertical;
+  }
+
+  .button-group {
+    margin-top: 15px;
+  }
+
+  .button-group .btn {
+    margin-right: 10px;
+  }
+
+  .btn.secondary {
+    background: #ddd;
+    color: #333;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+  }
+</style>
+{% endblock %}

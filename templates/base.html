@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Game Mania</title>
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block extra_css %}{% endblock %}
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+
+  <style>
+    :root {
+      --font-sans: 'Poppins', sans-serif;
+      --font-head: 'Montserrat', sans-serif;
+      --primary: #2ecc71;
+      --primary-dark: #27ae60;
+      --bg: #121212;
+      --card-bg: #1e1e1e;
+      --text: #f0f0f0;
+    }
+
+    html, body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+    }
+
+    h1, h2, h3, .hero-title {
+      font-family: var(--font-head);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #000;
+      padding: 1 2rem;
+      height: 90px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-left, .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      font-family: var(--font-head);
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary);
+      vertical-align: middle;
+    }
+
+    .btn-logout {
+      background: var(--primary);
+      color: #000;
+      padding: 0.4rem 1rem;
+      border: none;
+      border-radius: 20px;
+      font-weight: 600;
+      font-family: var(--font-head);
+      cursor: pointer;
+      transition: background 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-logout:hover {
+      background: var(--primary-dark);
+    }
+
+    footer {
+      background: #181818;
+      color: #aaa;
+      text-align: center;
+      padding: 30px 20px;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      margin-top: 60px;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    footer::before {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: var(--primary);
+      margin: 0 auto 15px auto;
+      border-radius: 4px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="nav-left">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('leaderboard') }}">Leaderboard</a>
+      <a href="{{ url_for('community') }}">Community</a>
+    </div>
+    <div class="nav-right">
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('profile') }}">
+          <img src="{{ url_for('static', filename='uploads/' ~ current_user.profile_pic) }}" alt="Avatar" class="avatar" />
+          {{ current_user.username }}
+        </a>
+        <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+        {% if request.endpoint == 'login' %}
+          <a href="{{ url_for('signup') }}">Signup</a>
+        {% endif %}
+      {% endif %}
+    </div>
+  </nav>
+
+  <div class="content-wrapper">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flashes">
+        {% for category, msg in messages %}
+          <div class="flash {{ category }}">{{ msg }}</div>
+        {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </div>
+
+  <footer>
+    © 2025 Game Mania. All Rights Reserved. <br>
+    Built by <a>Chirag Jogi</a>
+  </footer>
+</body>
+</html>
