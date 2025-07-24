@@ -50,15 +50,8 @@ source venv/bin/activate
 3️⃣ Install the Requirements
 pip install -r requirements.txt
 
-4️⃣ Initialize the Database
-If this is your first time running the project, the database will be created automatically:
-
-python app.py
-
-✅ This will automatically create game_mania.db and the necessary tables.
-
-5️⃣ Run the Application
-python app.py
+4️⃣ Run the Application
+python app.py / python3 app.py
 
 6️⃣ Open the App in Your Browser
 Go to http://127.0.0.1:5000/
