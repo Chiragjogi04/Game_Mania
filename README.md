@@ -32,36 +32,18 @@ git clone https://github.com/Chiragjogi04/Game_Mania.git
 cd game-mania
 ```
 
-2️⃣ Create a Virtual Environment (Recommended)
-**Create a virtual environment**
-```bash
-python -m venv venv
-```
-
-**Activate the virtual environment**
-
-**On Windows:**  
-```bash
-venv\Scripts\activate
-```
-
-**On macOS/Linux:**  
-```bash
-source venv/bin/activate
-```
-
-3️⃣ Install the Requirements  
+2️⃣ Install the Requirements  
 ```bash
 pip install -r requirements.txt
 ```
 
-4️⃣ Run the Application  
+3️⃣ Run the Application  
 ```bash
 python app.py
 # or
 python3 app.py
 ```
 
-6️⃣ Open the App in Your Browser  
+Final: Open the App in Your Browser  
 Go to [http://127.0.0.1:5000/](http://127.0.0.1:5000/)  
 Create an account, log in, and start playing!
