@@ -33,12 +33,12 @@ cd game-mania
 ```
 
 2️⃣ Create a Virtual Environment (Recommended)
-# Create a virtual environment
+**Create a virtual environment**
 ```bash
 python -m venv venv
 ```
 
-# Activate the virtual environment
+**Activate the virtual environment**
 
 **On Windows:**  
 ```bash
