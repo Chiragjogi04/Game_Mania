@@ -20,7 +20,7 @@ It lets you play multiple games, compete on leaderboards, and connect with a com
 
 - **Backend:** Flask (Python), SQLAlchemy  
 - **Frontend:** HTML, CSS (custom & animations), JavaScript  
-- **Database:** SQLite (file-based)
+- **Database:** SQLite
 
 ---
 
