@@ -8,4 +8,19 @@ services:
       - key: PYTHON_VERSION
         value: 3.9.16
       - key: SECRET_KEY
-        generateValue: true 
+        generateValue: true
+    envVarGroups:
+      - group: database
+
+envVarGroups:
+  - name: database
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: game-mania-db
+          property: connectionString
+
+databases:
+  - name: game-mania-db
+    databaseName: game_mania
+    user: game_mania_user 

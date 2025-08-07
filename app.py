@@ -414,6 +414,14 @@ def init_db():
             # Create all database tables
             db.create_all()
             print("✅ Database initialized successfully")
+            
+            # Check if we're using SQLite (development) or PostgreSQL (production)
+            db_url = app.config['SQLALCHEMY_DATABASE_URI']
+            if 'sqlite' in db_url:
+                print("⚠️  Using SQLite - Data will be lost on service restart (development mode)")
+            else:
+                print("✅ Using PostgreSQL - Data will persist (production mode)")
+                
         except Exception as e:
             print(f"⚠️  Database initialization warning: {e}")
             # Continue anyway - tables might already exist
