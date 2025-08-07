@@ -40,7 +40,7 @@ A comprehensive gaming platform built with Flask, featuring multiple games, user
 4. **Run the application**
    ```bash
    # Option 1: Direct run
-   python app.py
+   python app.py or python3 app.py
    
    # Option 2: Using the run script (recommended)
    ./run.sh
