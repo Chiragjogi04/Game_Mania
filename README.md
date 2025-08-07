@@ -1,52 +1,80 @@
 # 🎮 Game Mania
 
-**Game Mania** is a dynamic multi-game web application built with **Flask**, **Python**, **SQLAlchemy**, **HTML**, **CSS**, and **JavaScript**.  
-It lets you play multiple games, compete on leaderboards, and connect with a community — all in one secure and beautifully designed platform.
+A comprehensive gaming platform built with Flask, featuring multiple games, user authentication, community features, and leaderboards.
 
----
+## 🚀 Features
 
-## 📌 Features
+- **Multiple Games**: Rock Paper Scissors, Sudoku, Tic Tac Toe, Wordle, 2048, Connect Four, Snake, Breakout
+- **User Authentication**: Sign up, login, logout with profile management
+- **Community Features**: Create posts, upload images, react with emojis, comment system
+- **Leaderboards**: Track high scores and win rates across all games
+- **Profile System**: Customizable profiles with avatars, bio, and game history
+- **Responsive Design**: Modern UI that works on desktop and mobile
 
-✅ **Secure Authentication** — Login & Signup with safe session handling  
-👤 **User Profiles** — View your stats, game history, high scores, and personal info  
-🎮 **Multiple Games** — Play classics like Rock Paper Scissors, Sudoku, Tic Tac Toe, Snake, 2048, and more  
-🏆 **Leaderboards** — Compete globally based on win rate and high scores  
-💬 **Community** — Post, comment, and react to engage with other players  
-✨ **Modern UI** — Clean responsive design with animations and radium green theme
+## 🛠️ Tech Stack
 
----
+- **Backend**: Flask, SQLAlchemy, Flask-Login
+- **Database**: SQLite (development) / PostgreSQL (production)
+- **Frontend**: HTML, CSS, JavaScript
+- **Deployment**: Gunicorn, Render/Heroku/Railway ready
 
-## ⚙️ Tech Stack
+## 📦 Installation
 
-- **Backend:** Flask (Python), SQLAlchemy  
-- **Frontend:** HTML, CSS (custom & animations), JavaScript  
-- **Database:** SQLite
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Chiragjogi04/Game_Mania_Updated
+   cd Game_Mania
+   ```
 
----
+2. **Create virtual environment**
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
-## 🚀 Steps to Run Game Mania Locally
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-1️⃣ Clone the Repository
-```bash
-git clone https://github.com/Chiragjogi04/Game_Mania.git
-cd game-mania
-```
+4. **Run the application**
+   ```bash
+   # Option 1: Direct run
+   python app.py
+   
+   # Option 2: Using the run script (recommended)
+   ./run.sh
+   ```
 
-2️⃣ Install the Requirements  
-```bash
-pip install -r requirements.txt
-```
+5. **Access the application**
+   - Open your browser and go to `http://localhost:8000`
+   - If port 8000 is busy, the app will automatically use port 8001
 
-3️⃣ Run the Application  
-```bash
-python app.py
-```
 
-# or
-```bash
-python3 app.py
-```
+## 🎯 Game Features
 
-**Finally: Open the App in Your Browser**
-Go to [http://127.0.0.1:5000/](http://127.0.0.1:5000/)  
-Create an account, log in, and start playing!
+### Available Games
+
+1. **Rock Paper Scissors** - Classic hand game
+2. **Sudoku** - Number puzzle game
+3. **Tic Tac Toe** - Strategic board game
+4. **Wordle** - Word guessing game
+5. **2048** - Number sliding puzzle
+6. **Connect Four** - Strategy board game
+7. **Snake** - Classic arcade game
+8. **Breakout** - Brick breaking game
+
+### Scoring System
+
+- Each game tracks high scores
+- Win/loss statistics are maintained
+- Leaderboards show top players
+- Personal game history available
+
+## 👥 Community Features
+
+- **Posts**: Create text and image posts
+- **Reactions**: React with 👍, ❤️, 😂
+- **Comments**: Comment on posts with threaded replies
+- **Search**: Search posts and users
+- **Mentions**: Mention users with @username

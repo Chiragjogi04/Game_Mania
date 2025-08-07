@@ -1114,7 +1114,7 @@ canvas,
 /* Hero banner above form */
 .auth-hero {
   height: 30vh;
-  background: url('../images/auth-bg.jpg') center/cover no-repeat;
+  background: url('../images/bg1.jpg') center/cover no-repeat;
   position: relative;
 }
 .auth-hero .overlay {

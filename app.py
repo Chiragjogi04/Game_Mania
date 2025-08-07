@@ -9,8 +9,14 @@ import humanize
 import re
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your-secret-key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///game_mania.db'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key')
+
+# Database configuration
+database_url = os.environ.get('DATABASE_URL', 'sqlite:///game_mania.db')
+if database_url.startswith('postgres://'):
+    database_url = database_url.replace('postgres://', 'postgresql://', 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -99,6 +105,16 @@ def timeago(dt):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/init-db')
+def initialize_database():
+    """Manual database initialization route for debugging"""
+    try:
+        with app.app_context():
+            db.create_all()
+        return jsonify({'status': 'success', 'message': 'Database initialized successfully'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -389,8 +405,21 @@ def link_mentions(text):
 # Run App
 # =======================
 
-if __name__ == '__main__':
-    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+# Initialize database tables
+def init_db():
     with app.app_context():
-        db.create_all()
-    app.run(debug=True)
+        try:
+            # Ensure upload folder exists
+            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+            # Create all database tables
+            db.create_all()
+            print("✅ Database initialized successfully")
+        except Exception as e:
+            print(f"⚠️  Database initialization warning: {e}")
+            # Continue anyway - tables might already exist
+
+# Initialize database on app startup
+init_db()
+
+if __name__ == '__main__':
+    app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 8000)))
