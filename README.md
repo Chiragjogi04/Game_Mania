@@ -1,7 +1,7 @@
 # 🎮 Game Mania
 
 A comprehensive gaming platform built with Flask, featuring multiple games, user authentication, community features, and leaderboards.
-To check the project,you can visit at [gamemania-lehj.onrender.com](https://gamemania-lehj.onrender.com/)
+To check the project,you can visit at https://game-mania.onrender.com
 ## 🚀 Features
 
 - **Multiple Games**: Rock Paper Scissors, Sudoku, Tic Tac Toe, Wordle, 2048, Connect Four, Snake, Breakout
