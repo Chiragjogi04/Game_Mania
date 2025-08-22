@@ -16,7 +16,7 @@ To check the project,you can visit at https://game-mania.onrender.com
 - **Backend**: Flask, SQLAlchemy, Flask-Login
 - **Database**: SQLite (development) / PostgreSQL (production)
 - **Frontend**: HTML, CSS, JavaScript
-- **Deployment**: Gunicorn, Render/Heroku/Railway ready
+- **Deployment**: Gunicorn, Render
 
 ## 📦 Installation
 
